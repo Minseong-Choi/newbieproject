@@ -36,7 +36,7 @@ export default function ShuttlePurchasePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
       const response = await fetch('/api/purchases', {
         method: 'POST',
@@ -45,14 +45,21 @@ export default function ShuttlePurchasePage() {
         },
         body: JSON.stringify({ quantity: Number(quantity) }),
       });
-
-      if (response.ok) {
-        setShowForm(false);
-        setQuantity('');
-        fetchOrders();
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        alert(data.message);
+        return;
       }
+  
+      // 성공시 실행
+      setShowForm(false);
+      setQuantity('');
+      fetchOrders();
     } catch (error) {
       console.error('Failed to create order:', error);
+      alert('구매 신청 처리 중 오류가 발생했습니다.');
     } finally {
       setLoading(false);
     }

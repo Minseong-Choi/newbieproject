@@ -17,6 +17,13 @@ export async function POST(req: Request) {
       );
     }
 
+    if (username.length > 20) {
+      return NextResponse.json(
+        { message: '아이디는 20자 이하여야 합니다.' },
+        { status: 400 }
+      );
+    }
+    
     // 중복 사용자 확인
     const existingUser = await User.findOne({ username });
     if (existingUser) {

@@ -22,6 +22,14 @@ export async function POST(req: NextRequest) {
     const user = await auth(req);
     const { quantity } = await req.json();
 
+    // quantity 검증
+    if (!quantity || quantity <= 0 || quantity > 10) {
+      return NextResponse.json(
+        { message: '수량은 1개 이상 10개 이하로 입력해주세요.' }, 
+        { status: 400 }
+      );
+    }
+
     await connectDB();
     const purchase = await Purchase.create({
       userId: user._id,
@@ -29,10 +37,13 @@ export async function POST(req: NextRequest) {
       quantity
     });
 
-    return NextResponse.json(purchase);
+    return NextResponse.json(
+      { message: '구매 신청이 완료되었습니다.', purchase }
+    );
+
   } catch (error) {
     return NextResponse.json(
-      { error: '구매 신청에 실패했습니다.' }, 
+      { message: '구매 신청에 실패했습니다.' }, // error -> message로 변경
       { status: 500 }
     );
   }

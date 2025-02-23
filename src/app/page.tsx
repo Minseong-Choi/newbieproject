@@ -151,12 +151,7 @@ const HomePage = () => {
               <Trophy className="w-5 h-5 text-blue-600" />
               <h2 className="text-lg font-semibold">직속 랭킹</h2>
             </div>
-            <button 
-              onClick={handleViewboard}
-              className="text-blue-600 text-sm hover:underline cursor-pointer"
-            >
-              전체보기
-            </button>
+           
           </div>
           
           <div className="space-y-3">
